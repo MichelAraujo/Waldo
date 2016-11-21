@@ -9,6 +9,7 @@
   "author": "Michel Araujo",
   "license": "MIT",
   "dependencies": {
+    "gulp-install": "^0.6.0",
     "mongoose": "^4.6.5"
   },
   "devDependencies": {
