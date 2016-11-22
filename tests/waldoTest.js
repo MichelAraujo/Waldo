@@ -2,21 +2,26 @@ const assert = require('assert');
 const Waldo = require('../src/Waldo');
 
 describe('waldo', () => {
+
+	let waldo = null;
+
+	before(() => {
+		waldo = new Waldo();
+	});
+
   it('#Teste de instancia da classe', (done) => {
-  	const waldo = new Waldo();
-  	assert.ok(waldo instanceof Waldo);
+		assert.instanceOf(waldo, Waldo);
+  	//assert.ok(waldo instanceof Waldo);
   	done();
   });
 
   it('#Teste se Waldo responde oi', (done) => {
-  	const waldo = new Waldo();
   	waldo.setInteraction('oi');
   	assert.equal(waldo.getResponse(), 'Oi, como vai?');
   	done();
   });
 
   it('#Teste se Waldo reconhece alguém', (done) => {
-  	const waldo = new Waldo();
   	waldo.setInteraction('Quem é Michel Araujo Pinto');
   	assert.equal(waldo.getResponse(), 'E o meu Criador!');
 
