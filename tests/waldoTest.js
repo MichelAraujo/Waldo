@@ -10,8 +10,7 @@ describe('waldo', () => {
 	});
 
   it('#Teste de instancia da classe', (done) => {
-		assert.instanceOf(waldo, Waldo);
-  	//assert.ok(waldo instanceof Waldo);
+  	assert.ok(waldo instanceof Waldo);
   	done();
   });
 
@@ -28,6 +27,9 @@ describe('waldo', () => {
   	waldo.setInteraction('Quem é Tim Berners-Lee');
   	assert.equal(waldo.getResponse(), 'É o criador do protocolo HTTP');
 
-  	done();
+		waldo.setInteraction('Quem é BlaBla');
+		assert.equal(waldo.getResponse(), 'Não sei!');
+
+    done();
   });
 });
