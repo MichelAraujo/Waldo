@@ -11,9 +11,14 @@
   "dependencies": {
     "gulp-install": "^0.6.0",
     "gulp-mocha": "^3.0.1",
-    "mongoose": "^4.6.5"
+    "mongoose": "^4.6.5",
+    "winston": "^2.3.0"
   },
   "devDependencies": {
+    "gulp-git": "^1.12.0",
+    "gulp-jshint": "^2.0.4",
+    "istanbul": "^0.4.5",
+    "jshint": "^2.9.4",
     "mocha": "^3.1.2"
   }
 }
