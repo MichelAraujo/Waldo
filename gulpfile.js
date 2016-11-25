@@ -22,4 +22,4 @@ gulp.task('push-dev', () => {
   });
 });
 
-gulp.task('default', ['jshint']);
+gulp.task('default', ['jshint', 'test']);
