@@ -3,12 +3,34 @@ const logger = require('winston');
 
 class Connection {
   
-  connect() {
-    mongoose.connect('mongodb://localhost:32768/waldo');
+  constructor(connectionCollection) {
+  	this.connectionCollection = connectionCollection;
+  }
+
+  connect(callback) {
+  	const that = this;
+    const conn = mongoose.createConnection('mongodb://localhost:32768/waldo');
    
-    logger.info('Successfully connected');
+    conn.on('error', (err) => {
+      logger.error(`Mongoose error: ${err}`);	
+    });
+
+    conn.on('connected', () => {
+      logger.info('Successfully connected');
+    });
+
+    process.on('sigint', () => {
+      that.connectionCollection.get('waldo').close(() => {
+      	logger.info('Mongoose default connection disconnected through app termination');
+        process.exit(0);
+      });
+    });
     
-    return mongoose;
+    this.connectionCollection.add('waldo', conn);
+    
+    if (callback) {
+      callback();
+    }
   }
 }
 

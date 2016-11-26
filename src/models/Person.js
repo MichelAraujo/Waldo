@@ -1,22 +1,5 @@
-// const mongoose = require('mongoose');
-
-
-
-
-
-
-
-
-
-
-
-
-
-const Connection = require('../../app/database/Connection');
-const con = new Connection();
-const mongoose = con.connect();
-
-const Schema = mongoose.Schema;
+const Schema = require('mongoose').Schema;
+const ConnectionCollection = require('../helpers/database/ConnectionCollection');
 
 const Person = new Schema({
   name: String,
@@ -24,4 +7,4 @@ const Person = new Schema({
   sex: String
 });
 
-module.exports = mongoose.model('person', Person);
+module.exports = ConnectionCollection.get('waldo').model('person', Person);
