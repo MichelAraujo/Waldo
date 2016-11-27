@@ -1,12 +1,18 @@
 const assert = require('assert');
 const Waldo = require('../src/Waldo');
+const Connection = require('../app/database/Connection');
+const ConnectionCollection = require('../src/helpers/database/ConnectionCollection');
 
 describe('Waldo', () => {
 
 	let waldo = null;
 
 	before(() => {
-		waldo = new Waldo();
+    const connection = new Connection(ConnectionCollection);
+    connection.connect();
+
+    const Person = require('../src/models/Person');
+		waldo = new Waldo(new Person());
 	});
 
   it('#Teste de instancia da classe', (done) => {
