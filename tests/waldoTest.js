@@ -1,12 +1,18 @@
 const assert = require('assert');
 const Waldo = require('../src/Waldo');
+const Connection = require('../app/database/Connection');
+const ConnectionCollection = require('../src/helpers/database/ConnectionCollection');
 
-describe('waldo', () => {
+describe('Waldo', () => {
 
 	let waldo = null;
 
 	before(() => {
-		waldo = new Waldo();
+    const connection = new Connection(ConnectionCollection);
+    connection.connect();
+
+    const Person = require('../src/models/Person');
+		waldo = new Waldo(Person);
 	});
 
   it('#Teste de instancia da classe', (done) => {
@@ -21,7 +27,7 @@ describe('waldo', () => {
   });
 
   it('#Teste se Waldo reconhece alguém', (done) => {
-  	waldo.setInteraction('Quem é Michel Araujo Pinto');
+  	waldo.setInteraction('Quem é Michel Araujo');
   	assert.equal(waldo.getResponse(), 'E o meu Criador!');
 
   	waldo.setInteraction('Quem é Tim Berners-Lee');
