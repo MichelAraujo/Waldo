@@ -12,7 +12,7 @@ describe('Waldo', () => {
     connection.connect();
 
     const Person = require('../src/models/Person');
-		waldo = new Waldo(new Person());
+		waldo = new Waldo(Person);
 	});
 
   it('#Teste de instancia da classe', (done) => {
@@ -27,7 +27,7 @@ describe('Waldo', () => {
   });
 
   it('#Teste se Waldo reconhece alguém', (done) => {
-  	waldo.setInteraction('Quem é Michel Araujo Pinto');
+  	waldo.setInteraction('Quem é Michel Araujo');
   	assert.equal(waldo.getResponse(), 'E o meu Criador!');
 
   	waldo.setInteraction('Quem é Tim Berners-Lee');
