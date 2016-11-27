@@ -1,7 +1,7 @@
 const assert = require('assert');
 const Waldo = require('../src/Waldo');
 
-describe('waldo', () => {
+describe('Waldo', () => {
 
 	let waldo = null;
 

@@ -4,6 +4,10 @@ const logger = require('winston');
 class Connection {
   
   constructor(connectionCollection) {
+    if (!connectionCollection) {
+      throw new Error('Parametro ConnectionCollection invalido');
+    }
+
   	this.connectionCollection = connectionCollection;
   }
 
