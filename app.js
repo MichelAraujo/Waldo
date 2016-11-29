@@ -22,6 +22,8 @@ process.stdin.on('readable', () => {
     interaction = interaction.toString().replace(/\n/, '');
 
     waldo.setInteraction(interaction);
-    console.log(waldo.getResponse());
+    waldo.getResponse((result) => {
+      console.log(result);
+    });
   }
 });
