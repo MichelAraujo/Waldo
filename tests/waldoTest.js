@@ -6,15 +6,17 @@ const ConnectionCollection = require('../src/helpers/database/ConnectionCollecti
 describe('Waldo', () => {
 
 	let waldo = null;
+	let Person = null;
 
 	before(() => {
     const connection = new Connection(ConnectionCollection);
     connection.connect();
 
-    const Person = require('../src/models/Person');
+    Person = require('../src/models/Person');
 		waldo = new Waldo(Person);
 	});
 
+  // Etapa 01
   it('#Teste de instancia da classe', (done) => {
   	assert.ok(waldo instanceof Waldo);
   	done();
@@ -22,20 +24,60 @@ describe('Waldo', () => {
 
   it('#Teste se Waldo responde oi', (done) => {
   	waldo.setInteraction('oi');
-  	assert.equal(waldo.getResponse(), 'Oi, como vai?');
-  	done();
+    waldo.getResponse((result) => {
+      assert.equal(result, 'Oi, como vai?');
+      done();  
+    });
   });
 
   it('#Teste se Waldo reconhece alguém', (done) => {
   	waldo.setInteraction('Quem é Michel Araujo');
-  	assert.equal(waldo.getResponse(), 'E o meu Criador!');
-
-  	waldo.setInteraction('Quem é Tim Berners-Lee');
-  	assert.equal(waldo.getResponse(), 'É o criador do protocolo HTTP');
+    waldo.getResponse((result) => {
+      assert.equal(result, 'E o meu Criador!');  
+    });
 
 		waldo.setInteraction('Quem é BlaBla');
-		assert.equal(waldo.getResponse(), 'Não sei!');
+    waldo.getResponse((result) => {
+      assert.equal(result, 'Não sei!');
+      done();
+    });
+  });
+  // Fim etapa 01
 
-    done();
+  // Etapa 02 Com limpeza do banco
+  it('#Teste se é possivel cadastrar uma pessoa', (done) => {
+    waldo.setInteraction('Esse é o Vitor');
+    waldo.getResponse((result) => {
+      assert.equal(result, 'Ola Vitor! Quantos anos você tem?');
+      done();
+    });
+  });
+
+  it('#Teste se foi cadastrado o Vitor', (done) => {
+    waldo.setInteraction('Quem é Vitor');
+    waldo.getResponse((result) => {
+      assert.ok(result.indexOf('Vitor') > 1);
+      done()
+    });
+  });
+
+  it('#Teste fazendo update nos dados de uma pessoa', (done) => {
+    waldo.setInteraction('Ele tem 25');
+    waldo.getResponse((result) => {
+      assert.equal(result, 'E qual seu sexo?');
+      done();
+    });
+  });
+
+  it('#Teste se foi feito o update no usuario Vitor', (done) => {
+    waldo.setInteraction('Quem é Vitor');
+    waldo.getResponse((result) => {
+      assert.ok(result.indexOf('25') > 1);
+      done();
+    });
+  });
+
+  after(() => {
+    Person.remove().exec();
   });
 });

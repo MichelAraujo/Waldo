@@ -15,38 +15,45 @@ class Waldo {
   	this.interaction = interaction;
   }
 
-  getResponse() {
+  getResponse(callback) {
     if (this.interaction.indexOf('Quem é') !== -1) {
       const name = this.interaction.substr(6).trim();
 
       if (name == 'Michel Araujo') {
-      	return 'E o meu Criador!';
-      } else if (name == 'Tim Berners-Lee') {
-      	return 'É o criador do protocolo HTTP';
-      } else {
-        return 'Não sei!';
+        callback('E o meu Criador!');
+        return;
       }
+
+      this.personClass.findOne({ name: name }, 'name age sex', (err, person) => {
+        if (person === null) {
+          callback('Não sei!');
+        } else {
+          const result = 'Nome: ' + person.name + ' Idade: '
+            + person.age + ' Sexo: ' + person.sex;
+
+          callback(result);
+        }
+      });
     }
 
     if (this.interaction.indexOf('Quer conhecer o') !== -1) {
       const response = ['Sim', 'Não'];
-      return response[Math.floor(Math.random() * response.length)];
+      callback(response[Math.floor(Math.random() * response.length)]);
     }
 
     if (this.interaction.indexOf('Esse é o ') !== -1) {
       const name = this.interaction.substr(9).trim();
       this.person.name = name;
       this.person.save();
-      
-      console.log('Ola ' + name);
-      return 'Quantos anos você tem?';
+
+      callback('Ola ' + name + '! Quantos anos você tem?');
     }
     
     if (this.interaction.indexOf('Ele tem') !== -1) {
       const age = this.interaction.substr(7).trim();
       this.person.age = age;
       this.person.save();
-      return 'E qual seu sexo?';
+      callback('E qual seu sexo?');
     }
 
     if (this.interaction.indexOf('O sexo dele é') !== -1) {
@@ -55,11 +62,11 @@ class Waldo {
       this.person.save();
 
       this.person = new this.personClass();
-      return 'Ok, prazer em conhece-lo';
+      callback('Ok, prazer em conhece-lo');
     }
 
   	if (this.interaction === 'oi') {
-  	  return 'Oi, como vai?';
+      callback('Oi, como vai?');
   	}
   }
 }
