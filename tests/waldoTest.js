@@ -6,12 +6,13 @@ const ConnectionCollection = require('../src/helpers/database/ConnectionCollecti
 describe('Waldo', () => {
 
 	let waldo = null;
+	let Person = null;
 
 	before(() => {
     const connection = new Connection(ConnectionCollection);
     connection.connect();
 
-    const Person = require('../src/models/Person');
+    Person = require('../src/models/Person');
 		waldo = new Waldo(Person);
 	});
 
@@ -74,5 +75,9 @@ describe('Waldo', () => {
       assert.ok(result.indexOf('25') > 1);
       done();
     });
+  });
+
+  after(() => {
+    Person.remove().exec();
   });
 });
