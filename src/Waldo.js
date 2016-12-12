@@ -62,7 +62,7 @@ class Waldo {
       this.person.save();
 
       this.person = new this.personClass();
-      callback('Ok, prazer em conhece-lo');
+      callback('Ok, prazer em conhecê-lo');
     }
 
   	if (this.interaction === 'oi') {
